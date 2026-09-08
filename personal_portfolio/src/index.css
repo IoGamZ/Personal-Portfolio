@@ -1,8 +1,7 @@
 @import "tailwindcss";
 
-@theme inline{
-  /* Define custom color variables using HSL (Hue, Saturation, Lightness) format */
-  --color-border: hsl(var(--border)); /*hsl = hue, saturation and lightness */
+@theme {
+  --color-border: hsl(var(--border));
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 
@@ -12,33 +11,35 @@
   --color-card: hsl(var(--card));
 
   --animate-float: float 6s ease-in-out infinite;
-  --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;   /* stars pulsating forever */ /*may change for plexus random movement + puslating effect*/ 
-  --animate-fade-in: fade-in 0.7s ease-out forwards;              /* original fade in animation */
-  --animate-fade-in-delay-1: fade-in 0.7s ease-out 0.2s forwards; /* different version of animation (fade in)*/
+  --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;
+  --animate-fade-in: fade-in 0.7s ease-out forwards;
+  --animate-fade-in-delay-1: fade-in 0.7s ease-out 0.2s forwards;
   --animate-fade-in-delay-2: fade-in 0.7s ease-out 0.4s forwards;
   --animate-fade-in-delay-3: fade-in 0.7s ease-out 0.6s forwards;
   --animate-fade-in-delay-4: fade-in 0.7s ease-out 0.8s forwards;
-  --animate-meteor: meteor 5s linear infinite;                    /* designing this with orignal idea of liquid header, convert to spherical drops */
-  
-  /*
-  --animate-plexus-node: plexus-node 8s ease-in-out infinite alternate;
-  --animate-plexus-pulse: plexus-pulse 3s ease-in-out infinite;
-  --animate-plexus-drift: plexus-drift 12s ease-in-out infinite alternate;  
-  */
-  
+  --animate-meteor: meteor 5s linear;
+
+  /* =========================================================
+     GENERAL ANIMATIONS
+     ========================================================= */
+
   @keyframes float {
+    0%,
     100% {
       transform: translateY(0);
     }
+
     50% {
       transform: translateY(-10px);
     }
   }
 
   @keyframes pulse-subtle {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
     }
+
     50% {
       opacity: 0.8;
     }
@@ -49,6 +50,7 @@
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -60,124 +62,66 @@
       transform: rotate(215deg) translateX(0);
       opacity: 1;
     }
+
     70% {
       opacity: 1;
     }
+
     100% {
       transform: rotate(215deg) translateX(-500px);
       opacity: 0;
     }
   }
-}
 
-@keyframes plexus-drift {
-  0% {
-    transform: translate(0, 0);
+
+/*Plexus Animation */
+  @keyframes plexus-drift {
+    0% {transform: translate(0, 0);}
+    25% {transform: translate(40px, -25px);}
+    50% {transform: translate(-20px, 35px);}
+    75% {transform: translate(30px, 20px);}
+    100% { transform: translate(-35px, -30px);}
   }
 
-  25% {
-    transform: translate(40px, -25px);
-  }
+  @keyframes plexus-pulse {
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: scale(1);
+    }
 
-  50% {
-    transform: translate(-20px, 35px);
-  }
-
-  75% {
-    transform: translate(30px, 20px);
-  }
-
-  100% {
-    transform: translate(-35px, -30px);
-  }
-}
-
-@keyframes plexus-pulse {
-  0%, 100% {
-    opacity: 0.35;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.8;
-    transform: scale(1.25);
+    50% {
+      opacity: 0.8;
+      transform: scale(1.25);
+    }
   }
 }
 
-/* plexus-node */
-
-.plexus-node:nth-child(1) {
-  animation:
-    plexus-drift 11s ease-in-out infinite alternate,
-    plexus-pulse 3.5s ease-in-out infinite;
-}
-
-.plexus-node:nth-child(2) {
-  animation:
-    plexus-drift 15s ease-in-out infinite alternate-reverse,
-    plexus-pulse 4.2s ease-in-out infinite;
-}
-
-.plexus-node:nth-child(3) {
-  animation:
-    plexus-drift 9s ease-in-out infinite alternate,
-    plexus-pulse 2.8s ease-in-out infinite;
-}
-
+/*Background & Primary Colors */
 @layer base {
   :root {
-    /* Background colors */
-    --background: 0 0% 92%;           
-    --foreground: 24 8% 13%;          
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
 
-    /* Cards / surfaces */
-    --card: 0 0% 100%;                
+    --card: 0 0% 100%;
 
-    /* Gold palette */
-    --primary: 45 38% 49%;             
-    --primary-foreground: 0 0% 92%;    
+    --primary: 48, 84%, 39% ;
+    --primary-foreground: 210 40% 98%;
 
-    --accent: 45 30% 39%;              
-    --accent-foreground: 0 0% 92%;     
-
-    --muted: 0 3% 79%;                 
-    --muted-foreground: 0 2% 46%;      
-
-    --border: 0 2% 26%;                
-
-    /* Extra gold */
-    --gold-light: 45 42% 58%;          
-    --gold-pale: 46 47% 72%;           
-    --gold-dark: 44 40% 31%;           
+    --border: 214 32% 91%;
   }
 
   .dark {
-    /* Background colors */
-    --background: 24 8% 13%;           
-    --foreground: 0 0% 92%;            
+    --background: 222 47% 4%;
+    --foreground: 213 31% 91%;
 
-    /* Cards / surfaces */
-    --card: 24 6% 18%;                 
+    --card: 222 47% 8%; 
 
-    /* Gold palette */
-    --primary: 45 38% 49%;             
-    --primary-foreground: 24 8% 13%;   
+    --primary: 48, 84%, 39% ; 
+    --primary-foreground: 213 31% 91%;
 
-    --accent: 45 30% 39%;              
-    --accent-foreground: 0 0% 92%;    
-
-
-    --muted: 0 2% 46%;                 
-    --muted-foreground: 0 3% 79%;      
-
-    --border: 0 2% 26%;                
-
-    /* Extra gold */
-    --gold-light: 45 42% 58%;          
-    --gold-pale: 46 47% 72%;            
-    --gold-dark: 44 40% 31%;             
+    --border: 217 33% 20%; 
   }
-}
 
   * {
     @apply border-border;
@@ -191,11 +135,9 @@
     @apply bg-background text-foreground transition-colors duration-300;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+}
 
-
-/* utility class to make tailwind to act in conduction with others */
-/* container for different screen sizes */
-
+/*Website Container*/
 @utility container {
   margin-inline: auto;
   padding-inline: 2rem;
@@ -231,225 +173,77 @@
 }
 
 @utility gradient-border {
-  @apply relative rounded;
+  @apply relative rounded-md;
+
   background: linear-gradient(
     to right,
     hsl(var(--card)),
     hsl(var(--card))
   );
+
   background-clip: padding-box;
   border: 1px solid transparent;
 }
 
 @utility cosmic-button {
-  @apply px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium 
-         transition-all duration-300 hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]
-         hover:scale-105 active:scale-95;
+  @apply px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium
+    transition-all duration-300
+    hover:shadow-[0_0_10px_rgba(167,139,250,0.5)]
+    hover:scale-105
+    active:scale-95;
 }
 
-/* change to plexus */
+/* ===========================================================
+   PLEXUS CANVAS
+   =========================================================== */
 
-@utility star {
-  @apply absolute rounded-full bg-white;
-  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.4); 
+.plexus-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
-/* maybe remove meteor for diffreent size dots (liquid look) */
+/* ===========================================================
+   PLEXUS NODES
+   =========================================================== */
+
+.plexus-node:nth-child(1) {
+  animation:
+    plexus-drift 11s ease-in-out infinite alternate,
+    plexus-pulse 3.5s ease-in-out infinite;
+}
+
+.plexus-node:nth-child(2) {
+  animation:
+    plexus-drift 15s ease-in-out infinite alternate-reverse,
+    plexus-pulse 4.2s ease-in-out infinite;
+}
+
+.plexus-node:nth-child(3) {
+  animation:
+    plexus-drift 9s ease-in-out infinite alternate,
+    plexus-pulse 2.8s ease-in-out infinite;
+}
+
+/* ===========================================================
+   METEOR
+   =========================================================== */
 
 @utility meteor {
-  @apply absolute bg-linear-to-r from-white via-white to-transparent rounded-full;
-  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3); 
+  @apply absolute rounded-full bg-linear-to-r from-white via-white to-transparent;
+
+  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
 }
+
+/* ===========================================================
+   ROOT
+   =========================================================== */
 
 #root {
   max-width: 100%;
   margin: 0 auto;
   padding: 0;
   text-align: center;
-}
-
-.star-meteor {
-  position: absolute;
-  z-index: 20;
-  width: var(--size);
-  height: var(--size);
-  pointer-events: none;
-  opacity: 1;
-
-  animation: star-meteor 5s linear infinite;
-}
-
-/* Glowing trail */
-
-.star-trail {
-  position: absolute;
-  top: 50%;
-  right: calc(100% - 4px);
-
-  width: 90px;
-  height: 3px;
-
-  border-radius: 999px;
-
-  background: linear-gradient(
-    to left,
-    rgba(255, 255, 255, 0.9),
-    rgba(120, 200, 255, 0.45),
-    transparent
-  );
-
-  filter: blur(1px);
-
-  box-shadow:
-    0 0 6px rgba(255, 255, 255, 0.8),
-    0 0 14px rgba(100, 180, 255, 0.6);
-
-  /* Make trail diagonal */
-  transform: translateY(-50%) rotate(30deg);
-  transform-origin: right center;
-
-
-  filter: blur(1px);
-
-  box-shadow:
-    0 0 6px rgba(255, 255, 255, 0.8),
-    0 0 14px rgba(100, 180, 255, 0.6);
-}
-
-
-/* =====================================================
-   ROTATING STAR
-   ===================================================== */
-
-.rotating-star {
-  position: relative;
-
-  width: 100%;
-  height: 100%;
-
-  transform-style: preserve-3d;
-
-  /* Initial 3D angle */
-  transform: rotateX(55deg) rotateY(25deg);
-
-  /* CLOCKWISE */
-  animation: star-spin-clockwise 2s linear infinite;
-}
-
-
-/* =====================================================
-   STAR SHAPE
-   ===================================================== */
-
-.star-layer {
-  position: absolute;
-  inset: 0;
-
-  clip-path: polygon(
-    50% 0%,
-    61% 35%,
-    100% 50%,
-    61% 65%,
-    50% 100%,
-    39% 65%,
-    0% 50%,
-    39% 35%
-  );
-
-  background: linear-gradient(
-    135deg,
-    #ffffff 0%,
-    #8ed8ff 45%,
-    #5b6cff 100%
-  );
-
-  filter: drop-shadow(
-    0 0 6px rgba(140, 210, 255, 0.95)
-  );
-}
-
-
-/* 3D depth */
-
-.star-layer-1 {
-  transform: translateZ(5px);
-}
-
-.star-layer-2 {
-  transform: translateZ(0);
-  opacity: 0.8;
-}
-
-.star-layer-3 {
-  transform: translateZ(-5px);
-  opacity: 0.45;
-}
-
-
-/* Bright center */
-
-.star-core {
-  position: absolute;
-
-  width: 35%;
-  height: 35%;
-
-  left: 32.5%;
-  top: 32.5%;
-
-  border-radius: 50%;
-
-  background: white;
-
-  box-shadow:
-    0 0 5px white,
-    0 0 12px #8ed8ff,
-    0 0 22px #5b6cff,
-    0 0 35px rgba(100, 180, 255, 0.8);
-}
-
-
-/* =====================================================
-   METEOR FLIGHT
-   ===================================================== */
-
-@keyframes star-meteor {
-  0% {
-    transform: translate3d(0, 0, 0);
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  75% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translate3d(420px, 420px, 0);
-    opacity: 0;
-  }
-}
-
-
-/* =====================================================
-   CLOCKWISE STAR ROTATION
-   ===================================================== */
-
-@keyframes star-spin-clockwise {
-  from {
-    transform:
-      rotateX(55deg)
-      rotateY(25deg)
-      rotateZ(0deg);
-  }
-
-  to {
-    transform:
-      rotateX(55deg)
-      rotateY(25deg)
-      rotateZ(360deg);
-  }
 }

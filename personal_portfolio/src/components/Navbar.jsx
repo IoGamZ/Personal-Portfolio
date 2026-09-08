@@ -1,105 +1,188 @@
-import { useEffect, useState } from "react"; // React hooks: useState stores state, useEffect handles side effects
-import { cn } from "@/lib/utils"; // Utility function for conditionally combining Tailwind CSS classes
-import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
+import { Menu, X, Moon, Sun } from "lucide-react";
 
-// Navigation items: name = text displayed in the navbar, href = section the link points to
 const navItems = [
-    { name: "Home", href: "#hero" },         // Links to the Hero section
-    { name: "About", href: "#about" },       // Links to the About section
-    { name: "Skills", href: "#skills" },     // Links to the Skills section
-    { name: "Projects", href: "#projects" }, // Links to the Projects section
-    { name: "Contact", href: "#contact" },   // Links to the Contact section
+    { name: "Home", href: "#hero" },
+    { name: "About", href: "#about" },
+    { name: "Skills", href: "#skills" },
+    { name: "Projects", href: "#projects" },
+    { name: "Contact", href: "#contact" },
 ];
 
 export const Navbar = () => {
-    // Stores whether the user has scrolled down the page
     const [isScrolled, setIsScrolled] = useState(false);
-    const [isMenuOpen, SetIsMenuOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
-
+    // Handle scroll
     useEffect(() => {
-        // Function that checks how far the user has scrolled vertically
         const handleScroll = () => {
-            setIsScrolled(window.screenY > 10); // Set true once the page is scrolled more than 10px
+            setIsScrolled(window.scrollY > 10);
         };
 
-        // Listen for scrolling events on the browser window
         window.addEventListener("scroll", handleScroll);
 
-        // Cleanup: remove the scroll listener when the component is removed
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []); // Empty dependency array = run this effect only when the component mounts
+    }, []);
+
+    // Load saved theme
+    useEffect(() => {
+        const storedTheme = localStorage.getItem("theme");
+
+        if (storedTheme === "dark") {
+            setIsDarkMode(true);
+            document.documentElement.classList.add("dark");
+        } else {
+            setIsDarkMode(false);
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+        }
+    }, []);
+
+    // Toggle theme
+    const toggleTheme = () => {
+        const newDarkMode = !isDarkMode;
+
+        setIsDarkMode(newDarkMode);
+
+        if (newDarkMode) {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+        }
+
+        // Tell StarBackground that the theme changed
+        window.dispatchEvent(
+            new CustomEvent("themeChange", {
+                detail: {
+                    isDarkMode: newDarkMode,
+                },
+            })
+        );
+    };
 
     return (
-        <nav 
+        <nav
             className={cn(
-                // Navbar is fixed to the top and stretches across the entire screen
-                "fixed w-full z-40 transition-all duration-300",
-
-                // Change navbar styling after the user scrolls
-                isScrolled 
-                    ? "py-3 bg-background/80 backdrop-blur-md shadow-xs" // Scrolled: smaller padding + translucent background + blur + shadow
-                    : "py-5" // Not scrolled: larger vertical padding
+                "fixed top-0 left-0 w-full z-50 transition-all duration-300",
+                isScrolled
+                    ? "py-3 bg-background/80 backdrop-blur-md shadow-xs"
+                    : "py-5"
             )}
         >
-
-            {/* Main navbar container; flex places items horizontally */}
-            <div className="container flex items-center justify-between">
+            <div className="container flex items-center justify-between gap-4">
 
                 {/* Portfolio name */}
-                <a 
-                    className="text-xl font-bold text-primary flex items-center" // Flex aligns the name and icon horizontally
-                    href="#hero"    // Clicking the name scrolls to the Hero section
-                >   
-                    <span className="relative z-10">        
-                        <span className="text-glow text-foreground"> IoGamZ </span> Portfolio
+                <a
+                    className="text-xl font-bold text-primary flex items-center shrink-0 transition-colors duration-500"
+                    href="#hero"
+                >
+                    <span className="relative z-10">
+                        <span className="text-glow text-foreground transition-colors duration-500">
+                            IoGamZ
+                        </span>{" "}
+                        Portfolio
                     </span>
                 </a>
 
-                {/*desktop nav*/}
-                <div className="hidden md:flex space-x-8">
-                    {navItems.map((item, key) => (
-                        <a 
-                            key={key}
-                            href={item.href}
-                            className="text-foreground/80 hover:text-primary transition-colors duration-300"
-                        >
-                            {item.name}
-                        </a>
-                    ))}
-                </div>
+                {/* Desktop navigation + theme toggle */}
+                <div className="hidden md:flex items-center gap-6">
 
-                {/*mobile nav*/}
-
-                <button 
-                    onClick={() => SetIsMenuOpen((prev) => !prev)} 
-                    className="md:hidden p-2 text-foreground z-50"
-                    aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
-                >
-                    {isMenuOpen ? <X size={24} /> : <Menu size={24} /> }{" "}
-                </button>
-                <div 
-                    className={cn(
-                        "fixed inset-0 bg-background/95 backdrop-blur-md z-40 flex flex-col items-center justify-center",
-                        "transition-all duration-300 md:hidden",
-                        isMenuOpen 
-                            ?"opacity-100 pointer-events-auto"
-                            :"opacity-0 pointer-events-none"
-                    )}
-                >
-                    <div className="flex flex-col space-y-8 text-xl">
-                        {navItems.map((item, key) => (
-                            <a 
-                                key={key}
+                    {/* Navigation links */}
+                    <div className="flex items-center space-x-8">
+                        {navItems.map((item) => (
+                            <a
+                                key={item.name}
                                 href={item.href}
-                                className="text-foreground/80 hover:text-primary transition-colors duration-300"
-                                onClick={() => SetIsMenuOpen(true)}
+                                className="text-foreground/80 hover:text-primary transition-colors duration-300 whitespace-nowrap"
                             >
                                 {item.name}
                             </a>
                         ))}
                     </div>
-                </div>    
+
+                    {/* Theme toggle */}
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full transition-colors duration-300 focus:outline-none hover:bg-foreground/10 shrink-0"
+                        aria-label={
+                            isDarkMode
+                                ? "Switch to light mode"
+                                : "Switch to dark mode"
+                        }
+                    >
+                        {isDarkMode ? (
+                            <Sun className="h-6 w-6 text-yellow-300" />
+                        ) : (
+                            <Moon className="h-6 w-6 text-blue-900" />
+                        )}
+                    </button>
+                </div>
+
+                {/* Mobile controls */}
+                <div className="md:hidden flex items-center gap-2">
+
+                    {/* Theme toggle */}
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full transition-colors duration-300 focus:outline-none hover:bg-foreground/10"
+                        aria-label={
+                            isDarkMode
+                                ? "Switch to light mode"
+                                : "Switch to dark mode"
+                        }
+                    >
+                        {isDarkMode ? (
+                            <Sun className="h-6 w-6 text-yellow-300" />
+                        ) : (
+                            <Moon className="h-6 w-6 text-blue-900" />
+                        )}
+                    </button>
+
+                    {/* Mobile menu button */}
+                    <button
+                        onClick={() => setIsMenuOpen((prev) => !prev)}
+                        className="p-2 text-foreground z-50"
+                        aria-label={
+                            isMenuOpen
+                                ? "Close Menu"
+                                : "Open Menu"
+                        }
+                    >
+                        {isMenuOpen ? (
+                            <X size={24} />
+                        ) : (
+                            <Menu size={24} />
+                        )}
+                    </button>
+                </div>
+
+                {/* Mobile menu */}
+                <div
+                    className={cn(
+                        "fixed inset-0 bg-background/95 backdrop-blur-md z-40 flex flex-col items-center justify-center",
+                        "transition-all duration-300 md:hidden",
+                        isMenuOpen
+                            ? "opacity-100 pointer-events-auto"
+                            : "opacity-0 pointer-events-none"
+                    )}
+                >
+                    <div className="flex flex-col space-y-8 text-xl">
+                        {navItems.map((item) => (
+                            <a
+                                key={item.name}
+                                href={item.href}
+                                className="text-foreground/80 hover:text-primary transition-colors duration-300"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                {item.name}
+                            </a>
+                        ))}
+                    </div>
+                </div>
             </div>
         </nav>
     );
