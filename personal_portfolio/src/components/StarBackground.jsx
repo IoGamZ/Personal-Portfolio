@@ -122,7 +122,7 @@ export const StarBackground = () => {
         // =======================================================
 
         let particles = Array.from(
-            { length: 65 },
+            { length: 100 },
             () => ({
                 x: Math.random() * width,
                 y: Math.random() * height,
@@ -142,7 +142,7 @@ export const StarBackground = () => {
 
         const refreshParticles = () => {
             particles = Array.from(
-                { length: 65 },
+                { length: 100 },
                 () => ({
                     x:
                         Math.random() *

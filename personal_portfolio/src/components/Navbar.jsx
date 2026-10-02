@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Menu, X, Moon, Sun } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 const navItems = [
-    { name: "Home", href: "#hero" },
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" },
+    { name: "Home", href: "/" },
+    { name: "Skills", href: "/skills" },
+    { name: "Contact", href: "/contact" },
 ];
 
 export const Navbar = () => {
@@ -76,9 +75,9 @@ export const Navbar = () => {
             <div className="container flex items-center justify-between gap-4">
 
                 {/* Portfolio name */}
-                <a
+                <NavLink
                     className="text-xl font-bold text-primary flex items-center shrink-0 transition-colors duration-500"
-                    href="#hero"
+                    to="/"
                 >
                     <span className="relative z-10">
                         <span className="text-glow text-foreground transition-colors duration-500">
@@ -86,7 +85,7 @@ export const Navbar = () => {
                         </span>{" "}
                         Portfolio
                     </span>
-                </a>
+                </NavLink>
 
                 {/* Desktop navigation + theme toggle */}
                 <div className="hidden md:flex items-center gap-6">
@@ -94,13 +93,17 @@ export const Navbar = () => {
                     {/* Navigation links */}
                     <div className="flex items-center space-x-8">
                         {navItems.map((item) => (
-                            <a
+                            <NavLink
                                 key={item.name}
-                                href={item.href}
-                                className="text-foreground/80 hover:text-primary transition-colors duration-300 whitespace-nowrap"
+                                to={item.href}
+                                end={item.href === "/"}
+                                className={({ isActive }) => cn(
+                                    "text-foreground/80 hover:text-primary transition-colors duration-300 whitespace-nowrap",
+                                    isActive && "text-primary"
+                                )}
                             >
                                 {item.name}
-                            </a>
+                            </NavLink>
                         ))}
                     </div>
 
@@ -172,14 +175,18 @@ export const Navbar = () => {
                 >
                     <div className="flex flex-col space-y-8 text-xl">
                         {navItems.map((item) => (
-                            <a
+                            <NavLink
                                 key={item.name}
-                                href={item.href}
-                                className="text-foreground/80 hover:text-primary transition-colors duration-300"
+                                to={item.href}
+                                end={item.href === "/"}
+                                className={({ isActive }) => cn(
+                                    "text-foreground/80 hover:text-primary transition-colors duration-300",
+                                    isActive && "text-primary"
+                                )}
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 {item.name}
-                            </a>
+                            </NavLink>
                         ))}
                     </div>
                 </div>
