@@ -298,11 +298,8 @@ export const ContactSection = () => {
 {/* Community comment post-it board */}
 
                     <div className="space-y-5">
-
                         <div className="flex items-center justify-between">
-
                             <div>
-
                                 <div className="flex items-center gap-2">
                                     <span className="text-sm font-medium text-primary">
                                         Online Feeback Board
@@ -312,7 +309,6 @@ export const ContactSection = () => {
                                 <h3 className="text-2xl font-semibold mt-1">
                                     Leave a note for me!
                                 </h3>
-
                             </div>
 
                             <button
@@ -429,11 +425,9 @@ const PostIt = ({ note, index, position }) => {
         >
 
             {/* Note */}
-
             <p className="text-xs sm:text-sm leading-relaxed text-foreground/90">
                 {note}
             </p>
-
         </div>
     );
 };  
